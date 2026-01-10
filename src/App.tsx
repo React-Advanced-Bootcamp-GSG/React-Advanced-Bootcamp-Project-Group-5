@@ -5,8 +5,8 @@ import Products from "./modules/products/views";
 function App() {
   return (
     <>
-      <Typography>Hello, This is React Project!</Typography>
-      <Products/>
+      <Typography __size="xl">Products</Typography>
+      <Products />
     </>
   );
 }
