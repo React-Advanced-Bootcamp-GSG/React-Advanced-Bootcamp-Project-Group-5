@@ -1,4 +1,3 @@
-import "./App.css";
 import { Typography } from "@mantine/core";
 import Products from "./modules/products/views";
 
