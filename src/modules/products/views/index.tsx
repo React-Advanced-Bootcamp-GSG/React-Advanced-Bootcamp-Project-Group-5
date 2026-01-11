@@ -2,11 +2,16 @@ import { Button, Card, Grid, Group, Image, Pill, Text } from "@mantine/core";
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
 
 export default function Products() {
-  const { products } = useGetAllProducts();
+  const {
+    allProducts,
+    // productsWithDiscountHigherThan10,
+    // productsWithDiscountLowerThan10,
+    // isLoading,
+  } = useGetAllProducts();
 
   return (
     <Grid gutter="md">
-      {products.map((product) => {
+      {allProducts.map((product) => {
         return (
           <Grid.Col key={product.id} span={{ base: 12, sm: 6, md: 4 }}>
             <Card

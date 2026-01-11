@@ -6,6 +6,8 @@ export type Product = {
   price: number;
   image: string;
   isAvailable: boolean;
+  hasDiscounts: boolean;
+  discountPercentage: number;
   reviews: Review[];
 };
 
