@@ -4,12 +4,14 @@ import "./index.css";
 import "@mantine/core/styles.css";
 import App from "./App.tsx";
 import { MantineProvider } from "@mantine/core";
-import { ProductProviders } from "./modules/products/index.tsx";
+import { createProductModules } from "./modules/products/index.tsx";
+
+const {Provider:ProductProviders}=createProductModules();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <MantineProvider>
-      <ProductProviders value="Sample Product Value">
+      <ProductProviders>
            <App />
       </ProductProviders>
    
