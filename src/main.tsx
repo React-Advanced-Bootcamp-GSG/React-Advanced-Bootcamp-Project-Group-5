@@ -5,16 +5,22 @@ import "@mantine/core/styles.css";
 import App from "./App.tsx";
 import { MantineProvider } from "@mantine/core";
 import { createProductModules } from "./modules/products/index.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const {Provider:ProductProviders}=createProductModules();
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { refetchOnWindowFocus: false, retry: false } },
+});
+
+const { Provider: ProductProviders } = createProductModules();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <MantineProvider>
-      <ProductProviders>
-           <App />
-      </ProductProviders>
-   
-    </MantineProvider>
+    <QueryClientProvider client={queryClient}>
+      <MantineProvider>
+        <ProductProviders>
+          <App />
+        </ProductProviders>
+      </MantineProvider>
+    </QueryClientProvider>
   </StrictMode>
 );
