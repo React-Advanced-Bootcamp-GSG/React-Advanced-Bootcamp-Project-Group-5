@@ -10,6 +10,7 @@ export const toProduct = (products: ProductDTO[]): Product[] => {
       category: product.category,
       image: product.thumbnail,
       isAvailable: product.stock > 0,
+      hasDiscounts: product.discountPercentage > 0,
       discountPercentage: product.discountPercentage,
       price: product.price,
       reviews: product.reviews.map((review) => {
