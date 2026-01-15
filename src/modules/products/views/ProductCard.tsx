@@ -1,8 +1,15 @@
 import { Text, Button, Card, Grid, Group, Pill, Image } from "@mantine/core";
 import type { Product } from "../entities/Product";
+import useDeleteProducts from "../hooks/useDeleteProducts";
 
 export default function ProductCard({ product }: { product: Product}) {
   const {id, title, image, isAvailable, price, description} = product;
+
+  const { deleteProduct } = useDeleteProducts({onSuccess:()=>{
+    console.log("product deleted successfully !!!! ");
+    
+  }});
+
   return (
     <Grid.Col key={id} style={{height: "100%"}}>
       <Card
@@ -74,6 +81,18 @@ export default function ProductCard({ product }: { product: Product}) {
           style={{ marginTop: "auto" }}
         >
           {isAvailable ? "Order Now" : "Out of stock"}
+        </Button>
+
+        <Button
+          fullWidth
+          color="red"
+          mt="md"
+          radius="md"
+          disabled={!product.isAvailable}
+          style={{ marginTop: "auto" }}
+          onClick={()=>deleteProduct(product.id)}
+        >
+          Delete
         </Button>
         </Group>
 

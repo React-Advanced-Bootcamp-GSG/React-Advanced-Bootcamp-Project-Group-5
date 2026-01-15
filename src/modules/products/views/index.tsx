@@ -11,7 +11,6 @@ export default function Products() {
     isLoading,
   } = useGetAllProducts();
 
-
   if ( isLoading ) {
     return <div>Loading...</div>;
   }
