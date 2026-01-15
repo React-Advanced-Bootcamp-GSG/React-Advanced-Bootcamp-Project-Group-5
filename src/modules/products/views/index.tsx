@@ -1,16 +1,33 @@
-import { Button, Card, Grid, Group, Image, Pill, Text } from "@mantine/core";
-import { useGetAllProducts } from "../hooks/useGetAllProducts";
+import { Button, Card, Grid, Group, Image, Pill, Text } from '@mantine/core';
+import { useProducts } from '..';
 
 export default function Products() {
-  const {
-    allProducts,
-    // productsWithDiscountHigherThan10,
-    // productsWithDiscountLowerThan10,
-    // isLoading,
-  } = useGetAllProducts();
+  const { allProducts, nextPage, prevPage, currentPage, totalPages } =
+    useProducts();
 
   return (
     <Grid gutter="md">
+      <Grid.Col span={12} style={{ textAlign: 'center' }}>
+        <Button
+          variant="outline"
+          onClick={prevPage}
+          disabled={currentPage === 1}
+          style={{ marginRight: 8 }}
+        >
+          Previous
+        </Button>
+        <Text component="span" fw={500}>
+          Page {currentPage} of {totalPages}
+        </Text>
+        <Button
+          variant="outline"
+          onClick={nextPage}
+          disabled={currentPage === totalPages}
+          style={{ marginLeft: 8 }}
+        >
+          Next
+        </Button>
+      </Grid.Col>
       {allProducts.map((product) => {
         return (
           <Grid.Col key={product.id} span={{ base: 12, sm: 6, md: 4 }}>
