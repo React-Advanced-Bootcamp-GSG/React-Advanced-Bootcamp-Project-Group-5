@@ -1,7 +1,7 @@
 import { toProduct } from '../adapters/toProduct';
 import type { ProductsRepository, ProductsResponse } from '../types/repository';
 
-const Base_URL = "https://dummyjson.com/products";
+const Base_URL = 'https://dummyjson.com/products';
 
 export const restProducts = (): ProductsRepository => {
   return {
@@ -15,7 +15,7 @@ export const restProducts = (): ProductsRepository => {
 
       const response = await fetch(Base_URL + '?' + queryParams.toString());
       if (!response.ok) {
-        throw new Error("Failed to fetch products");
+        throw new Error('Failed to fetch products');
       }
 
       const data = await response.json();
@@ -29,6 +29,15 @@ export const restProducts = (): ProductsRepository => {
         totalProducts,
         totalPages,
       };
+    },
+    delete: async (id: string): Promise<void> => {
+      const response = await fetch(`${Base_URL}/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete product');
+      }
+      return;
     },
   };
 };

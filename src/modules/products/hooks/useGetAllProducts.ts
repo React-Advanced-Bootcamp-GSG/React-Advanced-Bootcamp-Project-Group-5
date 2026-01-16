@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { restProducts } from '../repository/restProducts';
 import type {
   SelectQueryData,
-  UseProductQueryParams,
+  UseGetAllProductsParams,
   UseProductsReturn,
 } from '../types/hooks';
 
@@ -15,7 +15,7 @@ const DEFAULT_QUERY_DATA: SelectQueryData = {
 };
 
 export const useGetAllProducts = (
-  params: UseProductQueryParams
+  params: UseGetAllProductsParams
 ): UseProductsReturn => {
   const { getAll } = restProducts();
 

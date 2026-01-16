@@ -13,4 +13,5 @@ export interface ProductsResponse {
 
 export interface ProductsRepository {
   getAll: (params: ProductQueryParams) => Promise<ProductsResponse>;
+  delete: (id: string) => Promise<void>;
 }

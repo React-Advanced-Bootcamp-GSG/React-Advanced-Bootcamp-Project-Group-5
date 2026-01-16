@@ -11,6 +11,7 @@ export type ProductContextType = {
   totalProducts: number;
   totalPages: number;
   productsPerPage: number;
+  deleteProduct: (id: string) => void;
   nextPage: () => void;
   prevPage: () => void;
   goToPage: (page: number) => void;

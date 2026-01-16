@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import { useGetAllProducts } from './hooks/useGetAllProducts';
 import type { ProductContextType, ProductProviderProps } from './types/context';
+import { useDeleteProducts } from './hooks/useDeleteProducts';
 
 const PRODUCTS_PER_PAGE = 30;
 
@@ -21,6 +22,12 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     limit: PRODUCTS_PER_PAGE,
     skip: (currentPage - 1) * PRODUCTS_PER_PAGE,
     currentPage,
+  });
+
+  const { deleteProduct } = useDeleteProducts({
+    onSuccess: () => {
+      return alert('Product deleted successfully');
+    },
   });
 
   const nextPage = () => {
@@ -50,6 +57,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     totalProducts,
     totalPages,
     productsPerPage: PRODUCTS_PER_PAGE,
+    deleteProduct,
     nextPage,
     prevPage,
     goToPage,

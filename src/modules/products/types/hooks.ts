@@ -1,8 +1,12 @@
 import type { Product } from './entities';
 import type { ProductQueryParams } from './repository';
 
-export type UseProductQueryParams = ProductQueryParams & {
+export type UseGetAllProductsParams = ProductQueryParams & {
   currentPage?: number;
+};
+
+export type UseDeleteProductsParams = {
+  onSuccess: () => void;
 };
 
 export type SelectQueryData = {
