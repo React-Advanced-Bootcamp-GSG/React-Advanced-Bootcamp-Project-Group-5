@@ -1,17 +1,14 @@
 import { Text, Button, Card, Grid, Group, Pill, Image } from "@mantine/core";
-import type { Product } from "../entities/Product";
-import useDeleteProducts from "../hooks/useDeleteProducts";
+import type { Product } from "../types/entities";
+import { useProducts } from "..";
 
-export default function ProductCard({ product }: { product: Product}) {
-  const {id, title, image, isAvailable, price, description} = product;
+export default function ProductCard({ product }: { product: Product }) {
+  const { title, image, isAvailable, price, description } = product;
 
-  const { deleteProduct } = useDeleteProducts({onSuccess:()=>{
-    console.log("product deleted successfully !!!! ");
-    
-  }});
+  const { deleteProduct } = useProducts()
 
   return (
-    <Grid.Col key={id} style={{height: "100%"}}>
+    <Grid.Col style={{ height: "100%" }}>
       <Card
         shadow="sm"
         padding="0"
@@ -56,44 +53,44 @@ export default function ProductCard({ product }: { product: Product}) {
           align="flex-start"
           gap="xs"
           style={{
-              backgroundColor: "#383838ff",
-              margin: "0.25rem",
-              padding: "0.5rem",
-              borderRadius: "0.375rem"
+            backgroundColor: "#383838ff",
+            margin: "0.25rem",
+            padding: "0.5rem",
+            borderRadius: "0.375rem"
           }}
         >
           <Text fw={600} lineClamp={1} c="#f5f5f5" ta="left">
             {product.title}
           </Text>
 
-        <Text size="sm" c="#959595" mt={6} lineClamp={2} ta="left">
-          {description}
-        </Text>
+          <Text size="sm" c="#959595" mt={6} lineClamp={2} ta="left">
+            {description}
+          </Text>
 
           {"price" in product && typeof price === "number" ? (
             <Text fw={700} c="#f5f5f5">${price.toFixed(2)}</Text>
           ) : null}
-        <Button
-          fullWidth
-          mt="md"
-          radius="md"
-          disabled={!isAvailable}
-          style={{ marginTop: "auto" }}
-        >
-          {isAvailable ? "Order Now" : "Out of stock"}
-        </Button>
+          <Button
+            fullWidth
+            mt="md"
+            radius="md"
+            disabled={!isAvailable}
+            style={{ marginTop: "auto" }}
+          >
+            {isAvailable ? "Order Now" : "Out of stock"}
+          </Button>
 
-        <Button
-          fullWidth
-          color="red"
-          mt="md"
-          radius="md"
-          disabled={!product.isAvailable}
-          style={{ marginTop: "auto" }}
-          onClick={()=>deleteProduct(product.id)}
-        >
-          Delete
-        </Button>
+          <Button
+            fullWidth
+            color="red"
+            mt="md"
+            radius="md"
+            disabled={!product.isAvailable}
+            style={{ marginTop: "auto" }}
+            onClick={() => deleteProduct(product.id)}
+          >
+            Delete
+          </Button>
         </Group>
 
       </Card>

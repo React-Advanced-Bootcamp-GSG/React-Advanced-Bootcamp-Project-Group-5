@@ -1,21 +1,28 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useProducts } from '..';
+import { restProducts } from '../repository/restProducts';
+import type { UseDeleteProductsParams } from '../types/hooks';
 
-export default function useDeleteProducts({onSuccess}: { onSuccess: () => void;}) {
-  const { delete: deleteProduct } = useProducts(); 
-   const queryClient = useQueryClient();
+export const useDeleteProducts = (params: UseDeleteProductsParams) => {
+  const { delete: deleteProduct } = restProducts();
+  const { onSuccess } = params;
+  const queryClient = useQueryClient();
 
-  const { mutate, isError, isPending, isSuccess } = useMutation({
-    mutationFn: deleteProduct,
+  const mutation = useMutation({
+    mutationFn: async (id: string) => {
+      await deleteProduct(id);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
       onSuccess();
     },
   });
-  return {
-    deleteProduct: mutate,
-    isError,
-    isPending,
-    isSuccess,
+
+  const handleDeleteProduct = (id: string) => {
+    mutation.mutate(id);
   };
-}
+
+  return {
+    deleteProduct: handleDeleteProduct,
+    isDeleting: mutation.isPending,
+  };
+};
