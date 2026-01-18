@@ -6,7 +6,7 @@ export type UseGetAllProductsParams = ProductQueryParams & {
 };
 
 export type UseDeleteProductsParams = {
-  onSuccess: () => void;
+  onSuccess?: () => void;
 };
 
 export type SelectQueryData = {
@@ -17,7 +17,7 @@ export type SelectQueryData = {
   totalPages: number;
 };
 
-export interface UseProductsReturn {
+export type UseProductsReturn = {
   allProducts: Product[];
   productsWithDiscountHigherThan10: Product[];
   productsWithDiscountLowerThan10: Product[];
@@ -25,4 +25,10 @@ export interface UseProductsReturn {
   isLoading: boolean;
   totalProducts: number;
   totalPages: number;
-}
+};
+
+export type UsePaginationProps = {
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalPages: number;
+};

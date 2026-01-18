@@ -1,12 +1,12 @@
 import { Carousel } from '@mantine/carousel';
-import type { Product } from '../types/entities';
-import ProductCard from './ProductCard';
+import { ProductCard } from './ProductCard';
+import type { ProductsCarouselProps } from '../types/components';
 
-function ProductsCarousel({ products }: { products: Product[] }) {
+export const ProductsCarousel = ({ products }: ProductsCarouselProps) => {
   return (
     <Carousel
       type="container"
-      slideSize={{ base: '25%', 'sm': '50%', md: '33.3333%' }}
+      slideSize={{ base: '25%', sm: '50%', md: '33.3333%' }}
       slideGap={{ base: 'xs', sm: 2 }}
       emblaOptions={{ loop: true, align: 'start', slidesToScroll: 1 }}
       withKeyboardEvents
@@ -18,6 +18,4 @@ function ProductsCarousel({ products }: { products: Product[] }) {
       ))}
     </Carousel>
   );
-}
-
-export default ProductsCarousel;
+};

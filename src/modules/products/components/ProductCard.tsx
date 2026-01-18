@@ -1,28 +1,31 @@
-import { Text, Button, Card, Grid, Group, Pill, Image } from "@mantine/core";
-import type { Product } from "../types/entities";
-import { useProducts } from "..";
+import { Text, Button, Card, Grid, Group, Pill, Image } from '@mantine/core';
+import { useDeleteProducts } from '../hooks/useDeleteProducts';
+import type { ProductCardProps } from '../types/components';
 
-export default function ProductCard({ product }: { product: Product }) {
+export const ProductCard = ({ product }: ProductCardProps) => {
   const { title, image, isAvailable, price, description } = product;
+  const { deleteProduct, isDeleted } = useDeleteProducts({});
 
-  const { deleteProduct } = useProducts()
+  if (isDeleted) {
+    return <></>;
+  }
 
   return (
-    <Grid.Col style={{ height: "100%" }}>
+    <Grid.Col style={{ height: '100%' }}>
       <Card
         shadow="sm"
         padding="0"
         radius="md"
         withBorder
         style={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          transition: "transform 160ms ease, box-shadow 160ms ease",
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          transition: 'transform 160ms ease, box-shadow 160ms ease',
         }}
       >
-        <Card.Section style={{ position: "relative" }}>
+        <Card.Section style={{ position: 'relative' }}>
           <Image
             src={image}
             height={150}
@@ -32,7 +35,7 @@ export default function ProductCard({ product }: { product: Product }) {
           />
           <div
             style={{
-              position: "absolute",
+              position: 'absolute',
               top: 12,
               insetInlineStart: 12,
             }}
@@ -53,10 +56,10 @@ export default function ProductCard({ product }: { product: Product }) {
           align="flex-start"
           gap="xs"
           style={{
-            backgroundColor: "#383838ff",
-            margin: "0.25rem",
-            padding: "0.5rem",
-            borderRadius: "0.375rem"
+            backgroundColor: '#383838ff',
+            margin: '0.25rem',
+            padding: '0.5rem',
+            borderRadius: '0.375rem',
           }}
         >
           <Text fw={600} lineClamp={1} c="#f5f5f5" ta="left">
@@ -67,17 +70,19 @@ export default function ProductCard({ product }: { product: Product }) {
             {description}
           </Text>
 
-          {"price" in product && typeof price === "number" ? (
-            <Text fw={700} c="#f5f5f5">${price.toFixed(2)}</Text>
+          {'price' in product && typeof price === 'number' ? (
+            <Text fw={700} c="#f5f5f5">
+              ${price.toFixed(2)}
+            </Text>
           ) : null}
           <Button
             fullWidth
             mt="md"
             radius="md"
             disabled={!isAvailable}
-            style={{ marginTop: "auto" }}
+            style={{ marginTop: 'auto' }}
           >
-            {isAvailable ? "Order Now" : "Out of stock"}
+            {isAvailable ? 'Order Now' : 'Out of stock'}
           </Button>
 
           <Button
@@ -86,14 +91,13 @@ export default function ProductCard({ product }: { product: Product }) {
             mt="md"
             radius="md"
             disabled={!product.isAvailable}
-            style={{ marginTop: "auto" }}
+            style={{ marginTop: 'auto' }}
             onClick={() => deleteProduct(product.id)}
           >
             Delete
           </Button>
         </Group>
-
       </Card>
     </Grid.Col>
   );
-}
+};
