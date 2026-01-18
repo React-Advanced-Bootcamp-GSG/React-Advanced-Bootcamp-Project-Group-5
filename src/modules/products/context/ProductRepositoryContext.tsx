@@ -1,6 +1,5 @@
 import { createContext, useContext, type ReactNode } from 'react';
 import type { IProductRepository } from '../types/repository';
-import { createApiProductRepository } from '../repository/ApiProductRepository';
 
 const ProductRepositoryContext = createContext<IProductRepository | null>(null);
 
