@@ -5,13 +5,13 @@ export type ProductQueryParams = {
   skip?: number;
 };
 
-export interface ProductsResponse {
+export type ProductsResponse = {
   products: Product[];
   totalProducts: number;
   totalPages: number;
-}
+};
 
-export interface ProductsRepository {
+export type IProductRepository = {
   getAll: (params: ProductQueryParams) => Promise<ProductsResponse>;
   delete: (id: string) => Promise<void>;
-}
+};

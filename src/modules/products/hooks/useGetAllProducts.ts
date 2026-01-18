@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { restProducts } from '../repository/restProducts';
+import { useProductRepository } from '../context/ProductRepositoryContext';
 import type {
   SelectQueryData,
   UseGetAllProductsParams,
@@ -17,7 +17,7 @@ const DEFAULT_QUERY_DATA: SelectQueryData = {
 export const useGetAllProducts = (
   params: UseGetAllProductsParams
 ): UseProductsReturn => {
-  const { getAll } = restProducts();
+  const { getAll } = useProductRepository();
 
   const {
     data = DEFAULT_QUERY_DATA,
