@@ -6,17 +6,15 @@ const ProductRepositoryContext = createContext<IProductRepository | null>(null);
 
 interface ProductRepositoryProviderProps {
   children: ReactNode;
-  repository?: IProductRepository;
+  repository: IProductRepository;
 }
 
 export const ProductRepositoryProvider = ({
   children,
   repository,
 }: ProductRepositoryProviderProps) => {
-  const repo = repository || createApiProductRepository();
-
   return (
-    <ProductRepositoryContext.Provider value={repo}>
+    <ProductRepositoryContext.Provider value={repository}>
       {children}
     </ProductRepositoryContext.Provider>
   );

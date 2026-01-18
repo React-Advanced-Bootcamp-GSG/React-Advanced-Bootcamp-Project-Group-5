@@ -7,8 +7,8 @@ import App from './App.tsx';
 import { MantineProvider } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
 import { ProductRepositoryProvider } from './modules/products/context/ProductRepositoryContext';
+import { createApiProductRepository } from './modules/products/repository/ApiProductRepository.ts';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false, retry: false } },
@@ -19,7 +19,7 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <MantineProvider>
-        <ProductRepositoryProvider>
+        <ProductRepositoryProvider repository={createApiProductRepository()}>
           <App />
         </ProductRepositoryProvider>
       </MantineProvider>
