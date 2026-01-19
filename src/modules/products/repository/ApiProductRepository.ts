@@ -1,9 +1,9 @@
 import { toProduct } from '../adapters/toProduct';
-import type { ProductsRepository, ProductsResponse } from '../types/repository';
+import type { IProductRepository, ProductsResponse } from '../types/repository';
 
-const Base_URL = 'https://dummyjson.com/products';
+const BASE_URL = 'https://dummyjson.com/products';
 
-export const restProducts = (): ProductsRepository => {
+export const createApiProductRepository = (): IProductRepository => {
   return {
     getAll: async (params): Promise<ProductsResponse> => {
       const queryParams = new URLSearchParams();
@@ -13,7 +13,7 @@ export const restProducts = (): ProductsRepository => {
       if (params.skip !== undefined)
         queryParams.append('skip', params.skip.toString());
 
-      const response = await fetch(Base_URL + '?' + queryParams.toString());
+      const response = await fetch(`${BASE_URL}?${queryParams.toString()}`);
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -21,7 +21,7 @@ export const restProducts = (): ProductsRepository => {
       const data = await response.json();
       const totalProducts = data.total;
       const totalPages = Math.ceil(
-        totalProducts / (params.limit || totalProducts)
+        totalProducts / (params.limit || totalProducts),
       );
 
       return {
@@ -31,13 +31,12 @@ export const restProducts = (): ProductsRepository => {
       };
     },
     delete: async (id: string): Promise<void> => {
-      const response = await fetch(`${Base_URL}/${id}`, {
+      const response = await fetch(`${BASE_URL}/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
         throw new Error('Failed to delete product');
       }
-      return;
     },
   };
 };
