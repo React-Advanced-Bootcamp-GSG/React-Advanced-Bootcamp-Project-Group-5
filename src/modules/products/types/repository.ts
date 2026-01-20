@@ -3,6 +3,7 @@ import type { Product } from './entities';
 export type ProductQueryParams = {
   limit?: number;
   skip?: number;
+  searchTerm?: string;
 };
 
 export type ProductsResponse = {
