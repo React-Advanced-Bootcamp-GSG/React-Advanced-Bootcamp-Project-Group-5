@@ -1,5 +1,5 @@
 import { toProduct } from '../adapters/toProduct';
-import type { ProductsRepository, ProductsResponse } from '../types/repository';
+import type { ProductResponse, ProductsRepository, ProductsResponse } from '../types/repository';
 
 const Base_URL = 'https://dummyjson.com/products';
 
@@ -39,5 +39,13 @@ export const restProducts = (): ProductsRepository => {
       }
       return;
     },
+    getById: async (id: string): Promise<ProductResponse> => {
+      const response = await fetch(`${Base_URL}/${id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch product by ID');
+      }
+      const data = await response.json();
+      return{ product: toProduct([data])[0]};
+    }
   };
 };

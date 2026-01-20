@@ -31,6 +31,7 @@ export const useGetAllProducts = (
     },
     staleTime: 1000 * 60,
     select: (data): SelectQueryData => {
+      
       return {
         all: data.products,
         productsWithDiscountHigherThan10: data.products.filter(

@@ -11,7 +11,11 @@ export interface ProductsResponse {
   totalPages: number;
 }
 
+export interface ProductResponse {
+  product:Product
+}
 export interface ProductsRepository {
   getAll: (params: ProductQueryParams) => Promise<ProductsResponse>;
   delete: (id: string) => Promise<void>;
+  getById :(id:string)=>Promise<ProductResponse>;
 }
