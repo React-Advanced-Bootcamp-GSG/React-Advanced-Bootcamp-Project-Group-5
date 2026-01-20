@@ -12,6 +12,8 @@ export const createApiProductRepository = (): IProductRepository => {
         queryParams.append('limit', params.limit.toString());
       if (params.skip !== undefined)
         queryParams.append('skip', params.skip.toString());
+      if (params.searchTerm)
+        queryParams.append('q', params.searchTerm);
 
       const response = await fetch(`${BASE_URL}?${queryParams.toString()}`);
       if (!response.ok) {
