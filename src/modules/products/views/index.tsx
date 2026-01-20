@@ -1,7 +1,8 @@
-import { Button, Grid, Text } from '@mantine/core';
+import { Button, Grid, Select, Text } from '@mantine/core';
 import { groupProductsByCategory } from '../../../utilities/groupProductsByCategory';
 import { useProducts } from '..';
 import { ProductsContainer } from '../components';
+import { useState } from 'react';
 
 export default function Products() {
   const {
@@ -13,7 +14,7 @@ export default function Products() {
     loading,
     error,
   } = useProducts();
-
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -23,9 +24,32 @@ export default function Products() {
   }
 
   const productsByCategory = groupProductsByCategory(allProducts);
+  const categories = Object.keys(productsByCategory).map((cat) => ({
+    value: cat,
+    label: cat,
+  }));
 
   return (
     <Grid gutter="xs">
+        <Select
+          label="Category"
+          placeholder="Select category"
+          data={categories}
+          value={selectedCategory}
+          onChange={setSelectedCategory}
+          searchable
+          clearable
+          nothingFoundMessage="No categories"
+          mb="md"
+          radius="md"
+          size="md"
+        />
+
+        {
+          <Grid.Col key={selectedCategory} span={15} p={0} mb="lg">
+            <ProductsContainer products={selectedCategory? productsByCategory[selectedCategory]:allProducts} />
+          </Grid.Col>
+      }
       <Grid.Col span={12} style={{ textAlign: 'center' }}>
         <Button
           variant="outline"
@@ -47,15 +71,6 @@ export default function Products() {
           Next
         </Button>
       </Grid.Col>
-      {Object.keys(productsByCategory).map((category) => (
-        <Grid.Col key={category} span={12} p={0} mb={'lg'}>
-          <ProductsContainer
-            key={category}
-            category={category}
-            products={productsByCategory[category]}
-          />
-        </Grid.Col>
-      ))}
     </Grid>
   );
 }
