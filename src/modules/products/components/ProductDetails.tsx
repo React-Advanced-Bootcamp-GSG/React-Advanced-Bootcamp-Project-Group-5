@@ -1,14 +1,12 @@
 import { useLoaderData } from "@tanstack/react-router";
 import { productRoute } from "../../../routes";
 import { useGetProductById } from "../hooks/useGetProductById";
-import { useProducts } from "..";
 
 
 export const ProductDetails = () => {
 
    const {productId} = useLoaderData({from: productRoute.id});
-   const {currentPage} = useProducts();
-   const product= useGetProductById(productId ,currentPage); 
+   const product= useGetProductById(productId ); 
 
   return (
     <div className="max-w-5xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -27,11 +25,17 @@ export const ProductDetails = () => {
       
           </span>
           <span className="text-sm text-gray-400">
-            Stock: {productId}
+            category: {product.data?.product.category}
           </span>
             <span className="text-sm text-gray-400">
-            CurrentPage: {currentPage}
+           Price: {product.data?.product.price}$
           </span>
+             <span className="text-sm text-gray-400">
+            {product.data?.product.isAvailable ? 'In Stock' : 'Out of Stock'}
+          </span>
+             <span className="text-sm text-gray-400">
+              {product.data?.product.reviews.length} Reviews
+            </span>
         </div>
 
         <button className="px-6 py-3 bg-black text-white rounded-xl hover:opacity-90 transition">

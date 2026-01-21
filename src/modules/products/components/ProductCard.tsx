@@ -1,11 +1,11 @@
 import { Text, Button, Card, Grid, Group, Pill, Image } from "@mantine/core";
 import type { Product } from "../types/entities";
-import { useProducts } from "..";
+import { useProductRepository } from "../context/ProductRepositoryContext";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { title, image, isAvailable, price, description } = product;
 
-  const { deleteProduct } = useProducts();
+  const { delete: deleteProduct } = useProductRepository();
 
   return (
     <Grid.Col style={{ height: "100%" }}>
