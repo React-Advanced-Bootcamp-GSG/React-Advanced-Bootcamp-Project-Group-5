@@ -1,48 +1,49 @@
 import { useLoaderData } from "@tanstack/react-router";
 import { productRoute } from "../../../routes";
 import { useGetProductById } from "../hooks/useGetProductById";
-
+import styles from "../style/ProductDetails.module.css";
 
 export const ProductDetails = () => {
+  const { productId } = useLoaderData({ from: productRoute.id });
+  const { data: product, isError, isLoading } = useGetProductById(productId);
 
-   const {productId} = useLoaderData({from: productRoute.id});
-   const product= useGetProductById(productId ); 
+  if (isLoading) {
+    return <div className={styles.loading}>Loading product details...</div>;
+  }
+
+  if (isError) {
+    return <div className={styles.error}>Something went wrong</div>;
+  }
 
   return (
-    <div className="max-w-5xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className={styles.container}>
       <img
-        src={product.data?.product?.image}
-        alt=""
-        className="rounded-2xl shadow-md"
+        src={product?.product?.image}
+        alt={product?.product?.title}
+        className={styles.image}
       />
 
-      <div className="space-y-4">
-        <h1 className="text-3xl font-bold">{product.data?.product?.title}</h1>
-        <p className="text-gray-600">{product.data?.product?.description}</p>
+      <div className={styles.details}>
+        <h1 className={styles.title}>{product?.product?.title}</h1>
+        <p className={styles.description}>
+          {product?.product?.description}
+        </p>
 
-        <div className="flex items-center gap-4">
-          <span className="text-2xl font-semibold text-green-600">
-      
-          </span>
-          <span className="text-sm text-gray-400">
-            category: {product.data?.product.category}
-          </span>
-            <span className="text-sm text-gray-400">
-           Price: {product.data?.product.price}$
-          </span>
-             <span className="text-sm text-gray-400">
-            {product.data?.product.isAvailable ? 'In Stock' : 'Out of Stock'}
-          </span>
-             <span className="text-sm text-gray-400">
-              {product.data?.product.reviews.length} Reviews
-            </span>
-        </div>
+        <p className={styles.meta}>
+          category: {product?.product.category}
+        </p>
+        <p className={styles.meta}>
+          Price: {product?.product.price}$
+        </p>
+        <p className={styles.meta}>
+          {product?.product.isAvailable ? "In Stock" : "Out of Stock"}
+        </p>
+        <p className={styles.meta}>
+          {product?.product.reviews.length} Reviews
+        </p>
 
-        <button className="px-6 py-3 bg-black text-white rounded-xl hover:opacity-90 transition">
-          Add to Cart
-        </button>
+        <button className={styles.button}>Add to Cart</button>
       </div>
     </div>
   );
 };
-

@@ -1,12 +1,14 @@
 import { Text, Button, Card, Grid, Group, Pill, Image } from "@mantine/core";
 import type { Product } from "../types/entities";
 import { useProductRepository } from "../context/ProductRepositoryContext";
+import { useNavigate } from "@tanstack/react-router";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { title, image, isAvailable, price, description } = product;
 
   const { delete: deleteProduct } = useProductRepository();
-
+ 
+  const navigate = useNavigate();
   return (
     <Grid.Col style={{ height: "100%" }}>
       <Card
@@ -14,7 +16,13 @@ export default function ProductCard({ product }: { product: Product }) {
         padding="0"
         radius="md"
         withBorder
+         onClick={() =>
+        navigate({
+          to: "/product/$productId",
+          params: { productId: product.id },
+        })}
         style={{
+          cursor:`pointer`,
           height: "100%",
           display: "flex",
           flexDirection: "column",
@@ -89,7 +97,11 @@ export default function ProductCard({ product }: { product: Product }) {
             radius="md"
             disabled={!product.isAvailable}
             style={{ marginTop: "auto" }}
-            onClick={() => deleteProduct(product.id)}
+            onClick={(e) => 
+              {
+                e.stopPropagation();
+                deleteProduct(product.id)}
+              }
           >
             Delete
           </Button>
