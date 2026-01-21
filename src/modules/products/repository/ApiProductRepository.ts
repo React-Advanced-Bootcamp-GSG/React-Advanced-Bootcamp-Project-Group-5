@@ -1,5 +1,5 @@
 import { toProduct } from '../adapters/toProduct';
-import type { IProductRepository, ProductsResponse } from '../types/repository';
+import type { ProductResponse, ProductsResponse , IProductRepository } from '../types/repository';
 
 const BASE_URL = 'https://dummyjson.com/products';
 
@@ -38,5 +38,13 @@ export const createApiProductRepository = (): IProductRepository => {
         throw new Error('Failed to delete product');
       }
     },
+    getById: async (id: string): Promise<ProductResponse> => {
+      const response = await fetch(`${BASE_URL}/${id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch product by ID');
+      }
+      const data = await response.json();
+      return{ product: toProduct([data])[0]};
+    }
   };
 };

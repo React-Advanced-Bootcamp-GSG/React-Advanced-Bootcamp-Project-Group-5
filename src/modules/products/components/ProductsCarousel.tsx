@@ -1,5 +1,5 @@
 import { Carousel } from '@mantine/carousel';
-import { ProductCard } from './ProductCard';
+import  ProductCard  from './ProductCard';
 import type { ProductsCarouselProps } from '../types/components';
 
 export const ProductsCarousel = ({ products }: ProductsCarouselProps) => {

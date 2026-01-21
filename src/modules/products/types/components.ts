@@ -9,6 +9,5 @@ export type ProductsCarouselProps = {
 };
 
 export type ProductsContainerProps = {
-  category: string;
   products: Product[];
 };

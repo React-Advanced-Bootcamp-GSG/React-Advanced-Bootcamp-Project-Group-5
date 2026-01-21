@@ -1,28 +1,33 @@
-import { Text, Button, Card, Grid, Group, Pill, Image } from '@mantine/core';
-import { useDeleteProducts } from '../hooks/useDeleteProducts';
-import type { ProductCardProps } from '../types/components';
+import { Text, Button, Card, Grid, Group, Pill, Image } from "@mantine/core";
+import type { Product } from "../types/entities";
+import { useProductRepository } from "../context/ProductRepositoryContext";
+import { useNavigate } from "@tanstack/react-router";
 
-export const ProductCard = ({ product }: ProductCardProps) => {
+export default function ProductCard({ product }: { product: Product }) {
   const { title, image, isAvailable, price, description } = product;
-  const { deleteProduct, isDeleted } = useDeleteProducts({});
 
-  if (isDeleted) {
-    return <></>;
-  }
-
+  const { delete: deleteProduct } = useProductRepository();
+ 
+  const navigate = useNavigate();
   return (
-    <Grid.Col style={{ height: '100%' }}>
+    <Grid.Col style={{ height: "100%" }}>
       <Card
         shadow="sm"
         padding="0"
         radius="md"
         withBorder
+         onClick={() =>
+        navigate({
+          to: "/product/$productId",
+          params: { productId: product.id },
+        })}
         style={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          transition: 'transform 160ms ease, box-shadow 160ms ease',
+          cursor:`pointer`,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          transition: "transform 160ms ease, box-shadow 160ms ease",
         }}
       >
         <Card.Section style={{ position: 'relative' }}>
@@ -91,8 +96,12 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             mt="md"
             radius="md"
             disabled={!product.isAvailable}
-            style={{ marginTop: 'auto' }}
-            onClick={() => deleteProduct(product.id)}
+            style={{ marginTop: "auto" }}
+            onClick={(e) => 
+              {
+                e.stopPropagation();
+                deleteProduct(product.id)}
+              }
           >
             Delete
           </Button>
