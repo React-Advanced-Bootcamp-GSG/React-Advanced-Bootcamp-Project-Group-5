@@ -1,15 +1,29 @@
 import { Button, Grid, Select, Text } from '@mantine/core';
 import { groupProductsByCategory } from '../../../utilities/groupProductsByCategory';
-import { useProducts } from '..';
 import { ProductsContainer } from '../components';
 import { useState } from 'react';
+import { useGetAllProducts } from '../hooks/useGetAllProducts';
+import { usePagination } from '../hooks/usePagination';
+
+const PRODUCTS_PER_PAGE = 30;
 
 export default function Products() {
+  const [currentPage, setCurrentPage] = useState(1);
+
   const {
     allProducts,
-    nextPage,
-    prevPage,
+    error,
+    isLoading: loading,
+    totalPages,
+  } = useGetAllProducts({
+    limit: PRODUCTS_PER_PAGE,
+    skip: (currentPage - 1) * PRODUCTS_PER_PAGE,
     currentPage,
+  });
+
+  const { nextPage, prevPage } = usePagination({
+    currentPage,
+    onPageChange: setCurrentPage,
     totalPages,
     loading,
     error,

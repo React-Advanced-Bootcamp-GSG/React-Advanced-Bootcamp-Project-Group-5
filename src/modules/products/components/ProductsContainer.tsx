@@ -1,9 +1,10 @@
-import {  Container } from "@mantine/core";
-import type { Product } from "../types/entities";
-import ProductsCarousel from "./ProductsCarousel";
+import {  Container } from '@mantine/core';
+import { ProductsCarousel } from './ProductsCarousel';
+import type { ProductsContainerProps } from '../types/components';
 
-const ProductsContainer: React.FC<{ products: Product[] }> = ({  products }) => {
-
+export const ProductsContainer = ({
+  products,
+}: ProductsContainerProps) => {
   return (
     <Container bg={"rgb(187, 187, 187)"} py={"lg"} display={"block"}>
       {/* <Title ta={"left"}>{category.toUpperCase()}</Title> */}
@@ -11,5 +12,3 @@ const ProductsContainer: React.FC<{ products: Product[] }> = ({  products }) => 
     </Container>
   );
 };
-
-export default ProductsContainer;
