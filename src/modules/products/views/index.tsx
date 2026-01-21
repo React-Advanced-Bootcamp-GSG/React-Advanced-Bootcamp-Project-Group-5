@@ -1,6 +1,6 @@
 import { Button, Grid, Select, Text } from '@mantine/core';
 import { groupProductsByCategory } from '../../../utilities/groupProductsByCategory';
-import { ProductsContainer } from '../components';
+import  {ProductsContainer} from '../components';
 import { useState } from 'react';
 import { useGetAllProducts } from '../hooks/useGetAllProducts';
 import { usePagination } from '../hooks/usePagination';
@@ -24,10 +24,8 @@ export default function Products() {
   const { nextPage, prevPage } = usePagination({
     currentPage,
     onPageChange: setCurrentPage,
-    totalPages,
-    loading,
-    error,
-  } = useProducts();
+    totalPages,});
+
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   if (loading) {
     return <div>Loading...</div>;
@@ -61,7 +59,7 @@ export default function Products() {
 
         {
           <Grid.Col key={selectedCategory} span={15} p={0} mb="lg">
-            <ProductsContainer products={selectedCategory? productsByCategory[selectedCategory]:allProducts} />
+            <ProductsContainer  products={selectedCategory? productsByCategory[selectedCategory]:allProducts} />
           </Grid.Col>
       }
       <Grid.Col span={12} style={{ textAlign: 'center' }}>
