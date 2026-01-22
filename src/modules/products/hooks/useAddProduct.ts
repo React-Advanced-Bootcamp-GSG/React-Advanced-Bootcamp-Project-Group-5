@@ -9,20 +9,31 @@ export const useAddProduct = () => {
   const { add: addProduct } = useProductRepository();
   const [isAdding, setIsAdding] = useState(false);
 
-  const { mutate } = useMutation({
-    mutationFn: (newProduct: Product) => addProduct(newProduct),
+  const { mutate, isPending } = useMutation({
+    mutationFn: (
+      newProduct: Pick<
+        Product,
+        "id" | "title" | "description" | "category" | "price" | "image"
+      >,
+    ) => addProduct(newProduct),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       setIsAdding(true);
     },
   });
 
-  const handleAddProduct = (product: Product) => {
+  const handleAddProduct = (
+    product: Pick<
+      Product,
+      "id" | "title" | "description" | "category" | "price" | "image"
+    >,
+  ) => {
     mutate(product);
-  }
+  };
 
   return {
     addProduct: handleAddProduct,
     isAdding,
-  }
+    isLoading: isPending,
+  };
 };
