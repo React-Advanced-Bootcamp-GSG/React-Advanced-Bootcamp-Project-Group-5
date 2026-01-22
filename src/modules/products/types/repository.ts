@@ -12,13 +12,18 @@ export type ProductsResponse = {
 };
 
 export interface ProductResponse {
-  product:Product
+  product: Product;
 }
 export type IProductRepository = {
   getAll: (params: ProductQueryParams) => Promise<ProductsResponse>;
   delete: (id: string) => Promise<void>;
-  getById :(id:string)=>Promise<ProductResponse>;
-  add: (product: Product) => Promise<Product>;
+  getById: (id: string) => Promise<ProductResponse>;
+  add: (
+    product: Pick<
+      Product,
+      "id" | "title" | "description" | "category" | "price" | "image"
+    >,
+  ) => Promise<Product>;
   getAllCategories: () => Promise<
     { name: string; slug: string; url: string }[]
   >;
