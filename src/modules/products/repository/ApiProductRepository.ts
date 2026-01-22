@@ -1,7 +1,8 @@
-import { toProduct } from '../adapters/toProduct';
-import type { ProductResponse, ProductsResponse , IProductRepository } from '../types/repository';
+import { toProduct } from "../adapters/toProduct";
+import type { Product } from "../types/entities";
+import type { IProductRepository, ProductResponse, ProductsResponse } from "../types/repository";
 
-const BASE_URL = 'https://dummyjson.com/products';
+const BASE_URL = "https://dummyjson.com/products";
 
 export const createApiProductRepository = (): IProductRepository => {
   return {
@@ -9,13 +10,13 @@ export const createApiProductRepository = (): IProductRepository => {
       const queryParams = new URLSearchParams();
 
       if (params.limit !== undefined)
-        queryParams.append('limit', params.limit.toString());
+        queryParams.append("limit", params.limit.toString());
       if (params.skip !== undefined)
-        queryParams.append('skip', params.skip.toString());
+        queryParams.append("skip", params.skip.toString());
 
       const response = await fetch(`${BASE_URL}?${queryParams.toString()}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch products');
+        throw new Error("Failed to fetch products");
       }
 
       const data = await response.json();
@@ -32,10 +33,10 @@ export const createApiProductRepository = (): IProductRepository => {
     },
     delete: async (id: string): Promise<void> => {
       const response = await fetch(`${BASE_URL}/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       if (!response.ok) {
-        throw new Error('Failed to delete product');
+        throw new Error("Failed to delete product");
       }
     },
     getById: async (id: string): Promise<ProductResponse> => {
@@ -45,6 +46,28 @@ export const createApiProductRepository = (): IProductRepository => {
       }
       const data = await response.json();
       return{ product: toProduct([data])[0]};
-    }
+    },
+    add: async (product): Promise<Product> => {
+      const response = await fetch(`${BASE_URL}/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(product),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to add product");
+      }
+      const data = await response.json();
+      return data;
+    },
+    getAllCategories: async (): Promise<{ name: string, slug: string, url: string }[]> => {
+      const response = await fetch(`${BASE_URL}/categories`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch categories");
+      }
+      const data = await response.json();
+      return data;
+    },
   };
 };
