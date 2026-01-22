@@ -10,8 +10,11 @@ const rootRoute = createRootRoute({
 
 export const productsRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/",
+  path: "/products",
   component: Products,
+  validateSearch: (search) => ({
+    page: search.page ? Number(search.page) : 1,
+  }),
 });
 
 export const productRoute = createRoute({

@@ -1,14 +1,18 @@
 import { Button, Grid, Select, Text } from '@mantine/core';
 import { groupProductsByCategory } from '../../../utilities/groupProductsByCategory';
-import  {ProductsContainer} from '../components';
-import { useState } from 'react';
+import { ProductsContainer } from '../components';
+import { useState, useEffect } from 'react';
 import { useGetAllProducts } from '../hooks/useGetAllProducts';
 import { usePagination } from '../hooks/usePagination';
+import { useSearch } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 
 const PRODUCTS_PER_PAGE = 30;
 
 export default function Products() {
-  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
+  const { page } = useSearch({ from: '/products' }) as { page?: string };
+  const [currentPage, setCurrentPage] = useState(page ? Number(page) : 1);
 
   const {
     allProducts,
@@ -20,6 +24,20 @@ export default function Products() {
     skip: (currentPage - 1) * PRODUCTS_PER_PAGE,
     currentPage,
   });
+
+  useEffect(() => {
+    if (loading || totalPages === 0) return;
+
+    if (Number(page) > totalPages) {
+      setCurrentPage(totalPages);
+      navigate({ to: '/products', search: { page: totalPages } });
+    }
+
+    if (Number(page) < 1) {
+      setCurrentPage(1);
+      navigate({ to: '/products', search: { page: 1 } });
+    }
+  }, [page, totalPages, loading, navigate]);
 
   const { nextPage, prevPage } = usePagination({
     currentPage,
