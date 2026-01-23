@@ -6,6 +6,7 @@ export const usePagination = ({
   currentPage,
   onPageChange,
   totalPages,
+  searchQuery = '',
 }: UsePaginationProps) => {
   const navigate = useNavigate();
 
@@ -14,7 +15,7 @@ export const usePagination = ({
     if (currentPage < totalPages) {
       onPageChange(nextPage);
     }
-    navigate({ to: '/products', search: { page: nextPage } });
+    navigate({ to: '/products', search: { page: nextPage, q: searchQuery } });
   };
 
   const prevPage = () => {
@@ -22,13 +23,13 @@ export const usePagination = ({
     if (currentPage > 1) {
       onPageChange(prevPage);
     }
-    navigate({ to: '/products', search: { page: prevPage } });
+    navigate({ to: '/products', search: { page: prevPage, q: searchQuery } });
   };
 
   const goToPage = (page: number) => {
     const validPage = Math.max(1, Math.min(page, totalPages));
     onPageChange(validPage);
-    navigate({ to: '/products', search: { page: validPage } });
+    navigate({ to: '/products', search: { page: validPage, q: searchQuery } });
   };
 
   return {
