@@ -10,4 +10,6 @@ export type ProductsCarouselProps = {
 
 export type ProductsContainerProps = {
   products: Product[];
+  isLoading?: boolean;
+  error?: Error | null;
 };
