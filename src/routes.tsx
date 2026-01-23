@@ -1,7 +1,7 @@
 import { createRootRoute, createRoute, Navigate } from '@tanstack/react-router'
 import { Layout } from './components/Layout';
 import Products from './modules/products/views';
-import  { ProductDetails } from './modules/products/components/ProductDetails';
+import { ProductDetails } from './modules/products/components/ProductDetails';
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -14,6 +14,7 @@ export const productsRoute = createRoute({
   component: Products,
   validateSearch: (search) => ({
     page: search.page ? Number(search.page) : 1,
+    q: (search.q as string) || '',
   }),
 });
 
