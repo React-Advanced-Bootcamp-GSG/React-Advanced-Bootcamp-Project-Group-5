@@ -1,39 +1,36 @@
-import { Button, Grid, Select, Text } from '@mantine/core';
-import { groupProductsByCategory } from '../../../utilities/groupProductsByCategory';
-import  {ProductsContainer} from '../components';
+import { Grid } from '@mantine/core';
 import { useState } from 'react';
-import { useGetAllProducts } from '../hooks/useGetAllProducts';
+import { groupProductsByCategory } from '../../../utilities/groupProductsByCategory';
+import {
+  ProductsContainer,
+  ProductSearchInput,
+  CategoryFilter,
+  PaginationControls,
+} from '../components';
+import { useProductsWithSearch } from '../hooks/useProductsWithSearch';
 import { usePagination } from '../hooks/usePagination';
 
-const PRODUCTS_PER_PAGE = 30;
-
 export default function Products() {
-  const [currentPage, setCurrentPage] = useState(1);
-
   const {
     allProducts,
     error,
-    isLoading: loading,
+    isLoading,
     totalPages,
-  } = useGetAllProducts({
-    limit: PRODUCTS_PER_PAGE,
-    skip: (currentPage - 1) * PRODUCTS_PER_PAGE,
     currentPage,
-  });
+    setCurrentPage,
+    searchTerm,
+    setSearchTerm,
+    debouncedSearchTerm,
+  } = useProductsWithSearch();
 
   const { nextPage, prevPage } = usePagination({
     currentPage,
     onPageChange: setCurrentPage,
-    totalPages,});
+    totalPages,
+    searchQuery: debouncedSearchTerm,
+  });
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
 
   const productsByCategory = groupProductsByCategory(allProducts);
   const categories = Object.keys(productsByCategory).map((cat) => ({
@@ -41,48 +38,40 @@ export default function Products() {
     label: cat,
   }));
 
+  const displayProducts = selectedCategory
+    ? productsByCategory[selectedCategory] || []
+    : allProducts;
+
   return (
     <Grid gutter="xs">
-        <Select
-          label="Category"
-          placeholder="Select category"
-          data={categories}
+      <Grid.Col span={12}>
+        <ProductSearchInput value={searchTerm} onChange={setSearchTerm} />
+      </Grid.Col>
+
+      <Grid.Col span={12}>
+        <CategoryFilter
+          categories={categories}
           value={selectedCategory}
           onChange={setSelectedCategory}
-          searchable
-          clearable
-          nothingFoundMessage="No categories"
-          mb="md"
-          radius="md"
-          size="md"
         />
-
-        {
-          <Grid.Col key={selectedCategory} span={15} p={0} mb="lg">
-            <ProductsContainer  products={selectedCategory? productsByCategory[selectedCategory]:allProducts} />
-          </Grid.Col>
-      }
-      <Grid.Col span={12} style={{ textAlign: 'center' }}>
-        <Button
-          variant="outline"
-          onClick={prevPage}
-          disabled={currentPage === 1}
-          style={{ marginRight: 8 }}
-        >
-          Previous
-        </Button>
-        <Text component="span" fw={500}>
-          Page {currentPage} of {totalPages}
-        </Text>
-        <Button
-          variant="outline"
-          onClick={nextPage}
-          disabled={currentPage === totalPages}
-          style={{ marginLeft: 8 }}
-        >
-          Next
-        </Button>
       </Grid.Col>
+
+      <Grid.Col span={12} p={0} mb="lg">
+        <ProductsContainer
+          products={displayProducts}
+          isLoading={isLoading}
+          error={error}
+        />
+      </Grid.Col>
+
+      {!isLoading && !error && totalPages > 0 && (
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPrevious={prevPage}
+          onNext={nextPage}
+        />
+      )}
     </Grid>
   );
 }

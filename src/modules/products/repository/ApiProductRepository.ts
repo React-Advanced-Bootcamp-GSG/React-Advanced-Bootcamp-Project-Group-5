@@ -1,5 +1,5 @@
 import { toProduct } from '../adapters/toProduct';
-import type { ProductResponse, ProductsResponse , IProductRepository } from '../types/repository';
+import type { ProductResponse, ProductsResponse, IProductRepository } from '../types/repository';
 
 const BASE_URL = 'https://dummyjson.com/products';
 
@@ -13,7 +13,13 @@ export const createApiProductRepository = (): IProductRepository => {
       if (params.skip !== undefined)
         queryParams.append('skip', params.skip.toString());
 
-      const response = await fetch(`${BASE_URL}?${queryParams.toString()}`);
+      let url = BASE_URL;
+      if (params.searchTerm) {
+        url = `${BASE_URL}/search`;
+        queryParams.append('q', params.searchTerm);
+      }
+
+      const response = await fetch(`${url}?${queryParams.toString()}`);
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }

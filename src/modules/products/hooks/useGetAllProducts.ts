@@ -15,7 +15,7 @@ const DEFAULT_QUERY_DATA: SelectQueryData = {
 };
 
 export const useGetAllProducts = (
-  params: UseGetAllProductsParams
+  params: UseGetAllProductsParams & { enabled?: boolean }
 ): UseProductsReturn => {
   const { getAll } = useProductRepository();
 
@@ -29,9 +29,10 @@ export const useGetAllProducts = (
       const data = await getAll(params);
       return data;
     },
+    enabled: params.enabled !== false,
     staleTime: 1000 * 60,
     select: (data): SelectQueryData => {
-      
+
       return {
         all: data.products,
         productsWithDiscountHigherThan10: data.products.filter(

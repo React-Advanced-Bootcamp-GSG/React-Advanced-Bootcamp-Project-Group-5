@@ -31,4 +31,5 @@ export type UsePaginationProps = {
   currentPage: number;
   onPageChange: (page: number) => void;
   totalPages: number;
+  searchQuery?: string;
 };
