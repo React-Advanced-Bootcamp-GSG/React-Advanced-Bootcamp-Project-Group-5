@@ -1,27 +1,31 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import './index.css';
-import '@mantine/core/styles.css';
-import '@mantine/carousel/styles.css';
-import App from './App.tsx';
-import { MantineProvider } from '@mantine/core';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ProductRepositoryProvider } from './modules/products/context/ProductRepositoryContext';
-import { createApiProductRepository } from './modules/products/repository/ApiProductRepository.ts';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import "@mantine/core/styles.css";
+import "@mantine/carousel/styles.css";
+import App from "./App.tsx";
+import { MantineProvider } from "@mantine/core";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ProductRepositoryProvider } from "./modules/products/context/ProductRepositoryContext";
+import { CategoryRepositoryProvider } from "./modules/products/context/CategoryRepositoryContext";
+import { createApiProductRepository } from "./modules/products/repository/ApiProductRepository.ts";
+import { createApiCategoryRepository } from "./modules/products/repository/ApiCategoryRepository.ts";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false, retry: false } },
 });
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <MantineProvider>
-        <ProductRepositoryProvider repository={createApiProductRepository()}>
-          <App />
-        </ProductRepositoryProvider>
+        <CategoryRepositoryProvider repository={createApiCategoryRepository()}>
+          <ProductRepositoryProvider repository={createApiProductRepository()}>
+            <App />
+          </ProductRepositoryProvider>
+        </CategoryRepositoryProvider>
       </MantineProvider>
     </QueryClientProvider>
   </StrictMode>,
