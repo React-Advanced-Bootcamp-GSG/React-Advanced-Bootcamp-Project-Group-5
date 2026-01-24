@@ -52,11 +52,11 @@ export default function ProductForm() {
             placeholder="Enter product title"
             key={form.key("title")}
             {...form.getInputProps("title")}
-            // error={field.state.meta.errors[0] || ""}
           />
           <Textarea
             label="Product description"
             placeholder="Enter product description"
+            key={form.key("description")}
             autosize
             minRows={3}
             {...form.getInputProps("description")}
@@ -65,6 +65,7 @@ export default function ProductForm() {
             label="Product price"
             placeholder="Enter price"
             thousandSeparator=","
+            key={form.key("price")}
             decimalScale={2}
             fixedDecimalScale
             {...form.getInputProps("price")}
@@ -73,6 +74,7 @@ export default function ProductForm() {
             label="Product category"
             {...form.getInputProps("category")}
             placeholder="Select product category"
+            key={form.key("category")}
             data={
               isCategoriesLoading
                 ? []
@@ -85,6 +87,7 @@ export default function ProductForm() {
           <TextInput
             label="Product image"
             placeholder="Enter product image"
+            key={form.key("image")}
             {...form.getInputProps("image")}
           />
         </Stack>
