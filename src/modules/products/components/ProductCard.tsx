@@ -1,111 +1,177 @@
-import { Text, Button, Card, Grid, Group, Pill, Image } from "@mantine/core";
+import {
+  Badge,
+  Button,
+  Card,
+  Grid,
+  Group,
+  Image,
+  Rating,
+  Stack,
+  Text,
+} from "@mantine/core";
+import { MdDeleteOutline, MdShoppingCart } from "react-icons/md";
+import { useProducts } from "..";
 import type { Product } from "../types/entities";
-import { useProductRepository } from "../context/ProductRepositoryContext";
-import { useNavigate } from "@tanstack/react-router";
+import styles from "./ProductCard.module.css";
 
 export default function ProductCard({ product }: { product: Product }) {
-  const { title, image, isAvailable, price, description } = product;
+  const {
+    title,
+    image,
+    isAvailable,
+    price,
+    description,
+    discountPercentage,
+    reviews,
+    hasDiscounts,
+  } = product;
 
-  const { delete: deleteProduct } = useProductRepository();
- 
-  const navigate = useNavigate();
+  const { deleteProduct } = useProducts();
+
+  const discountedPrice = hasDiscounts
+    ? price * (1 - discountPercentage / 100)
+    : price;
+
+  const avgRating =
+    reviews && reviews.length > 0
+      ? (
+          reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+        ).toFixed(1)
+      : 0;
+
   return (
     <Grid.Col style={{ height: "100%" }}>
       <Card
-        shadow="sm"
+        className={styles.card}
+        shadow="0"
         padding="0"
-        radius="md"
-        withBorder
-         onClick={() =>
-        navigate({
-          to: "/product/$productId",
-          params: { productId: product.id },
-        })}
-        style={{
-          cursor:`pointer`,
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          transition: "transform 160ms ease, box-shadow 160ms ease",
-        }}
+        radius="lg"
+        withBorder={false}
       >
-        <Card.Section style={{ position: 'relative' }}>
-          <Image
-            src={image}
-            height={150}
-            alt={title}
-            fit="cover"
-            fallbackSrc="https://placehold.co/800x600?text=Product"
-          />
-          <div
-            style={{
-              position: 'absolute',
-              top: 12,
-              insetInlineStart: 12,
-            }}
-          >
-            {isAvailable ? (
-              <Pill size="sm">Available</Pill>
-            ) : (
-              <Pill size="sm" style={{ opacity: 0.7 }}>
-                Not Available
-              </Pill>
+        {/* Image Section */}
+        <Card.Section className={styles.imageContainer}>
+          <div className={styles.imageWrapper}>
+            <Image
+              className={styles.image}
+              src={image}
+              height={200}
+              alt={title}
+              fit="cover"
+              fallbackSrc="https://placehold.co/800x600?text=Product"
+            />
+            {/* Overlay */}
+            <div className={styles.overlay}>
+              <Button
+                size="md"
+                radius="md"
+                leftSection={<MdShoppingCart size={16} />}
+                className={styles.quickViewBtn}
+              >
+                Quick View
+              </Button>
+            </div>
+          </div>
+
+          {/* Badges */}
+          <div className={styles.badgesContainer}>
+            {!isAvailable && (
+              <Badge className={styles.badge + " " + styles.outOfStock}>
+                Out of Stock
+              </Badge>
+            )}
+            {hasDiscounts && (
+              <Badge className={styles.badge + " " + styles.discount}>
+                -{discountPercentage}%
+              </Badge>
+            )}
+            {isAvailable && (
+              <Badge className={styles.badge + " " + styles.available}>
+                In Stock
+              </Badge>
             )}
           </div>
         </Card.Section>
 
-        <Group
-          justify="flex-start"
-          mt="md"
-          align="flex-start"
-          gap="xs"
-          style={{
-            backgroundColor: '#383838ff',
-            margin: '0.25rem',
-            padding: '0.5rem',
-            borderRadius: '0.375rem',
-          }}
-        >
-          <Text fw={600} lineClamp={1} c="#f5f5f5" ta="left">
-            {product.title}
+        {/* Content Section */}
+        <Stack gap="sm" p="lg" className={styles.content}>
+          {/* Title */}
+          <Text fw={700} size="sm" lineClamp={2} className={styles.title}>
+            {title}
           </Text>
 
-          <Text size="sm" c="#959595" mt={6} lineClamp={2} ta="left">
+          {/* Rating */}
+          {reviews && reviews.length > 0 && (
+            <Group gap="xs">
+              <Rating
+                value={Math.round(Number(avgRating))}
+                readOnly
+                size="xs"
+              />
+              <Text size="xs" c="dimmed">
+                {avgRating} ({reviews.length})
+              </Text>
+            </Group>
+          )}
+
+          {/* Description */}
+          <Text
+            size="xs"
+            c="dimmed"
+            lineClamp={2}
+            className={styles.description}
+          >
             {description}
           </Text>
 
-          {'price' in product && typeof price === 'number' ? (
-            <Text fw={700} c="#f5f5f5">
-              ${price.toFixed(2)}
-            </Text>
-          ) : null}
-          <Button
-            fullWidth
-            mt="md"
-            radius="md"
-            disabled={!isAvailable}
-            style={{ marginTop: 'auto' }}
-          >
-            {isAvailable ? 'Order Now' : 'Out of stock'}
-          </Button>
+          {/* Price Section */}
+          <Group justify="space-between" align="flex-end" mt="auto">
+            <div>
+              {hasDiscounts ? (
+                <>
+                  <Text size="xs" c="dimmed" td="line-through">
+                    ${price.toFixed(2)}
+                  </Text>
+                  <Text fw={700} size="lg" c="var(--primary-color)">
+                    ${discountedPrice.toFixed(2)}
+                  </Text>
+                </>
+              ) : (
+                <Text fw={700} size="lg" c="#2d3748">
+                  ${price.toFixed(2)}
+                </Text>
+              )}
+            </div>
+            {hasDiscounts && (
+              <Badge size="sm" color="red" variant="light">
+                Save ${(price - discountedPrice).toFixed(2)}
+              </Badge>
+            )}
+          </Group>
 
-          <Button
-            fullWidth
-            color="red"
-            mt="md"
-            radius="md"
-            disabled={!product.isAvailable}
-            style={{ marginTop: "auto" }}
-            onClick={(e) => 
-              {
-                e.stopPropagation();
-                deleteProduct(product.id)}
-              }
-          >
-            Delete
-          </Button>
-        </Group>
+          {/* Action Buttons */}
+          <Group grow gap="xs" mt="lg">
+            <Button
+              fullWidth
+              className={styles.orderBtn}
+              disabled={!isAvailable}
+              radius="md"
+              size="sm"
+              // leftSection={<IconShoppingCart size={14} />}
+            >
+              {isAvailable ? "Add to Cart" : "Unavailable"}
+            </Button>
+            <Button
+              fullWidth
+              className={styles.deleteBtn}
+              radius="md"
+              size="sm"
+              leftSection={<MdDeleteOutline size={14} />}
+              onClick={() => deleteProduct(product.id)}
+            >
+              Delete
+            </Button>
+          </Group>
+        </Stack>
       </Card>
     </Grid.Col>
   );
