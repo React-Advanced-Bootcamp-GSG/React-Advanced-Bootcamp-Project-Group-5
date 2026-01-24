@@ -1,4 +1,3 @@
-// import { useForm } from "@tanstack/react-form";
 import {
   Button,
   Flex,
@@ -16,7 +15,7 @@ import { useAddProduct } from "../hooks/useAddProduct";
 import { useGetAllCategories } from "../hooks/useGetAllCategories";
 import { addProductFormSchema } from "../../../utilities/addProductFormValidation";
 
-export default function App() {
+export default function ProductForm() {
   const { addProduct, isLoading: isAddingProductLoading } = useAddProduct();
   const { categories, isLoading: isCategoriesLoading } = useGetAllCategories();
   const form = useForm({
@@ -43,8 +42,6 @@ export default function App() {
     });
     form.reset();
   };
-
-  console.log({ error: form.errors });
 
   return (
     <div>
