@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { useProductRepository } from "../context/ProductRepositoryContext";
+import { useCategoryRepository } from "../context/CategoryRepositoryContext";
 
 export const useGetAllCategories = () => {
-  const { getAllCategories } = useProductRepository();
+  const { getAllCategories } = useCategoryRepository();
 
   const query = useQuery({
     queryKey: ["product-categories"],

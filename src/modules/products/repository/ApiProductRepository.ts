@@ -1,6 +1,10 @@
 import { toProduct } from "../adapters/toProduct";
 import type { Product } from "../types/entities";
-import type { IProductRepository, ProductResponse, ProductsResponse } from "../types/repository";
+import type {
+  IProductRepository,
+  ProductResponse,
+  ProductsResponse,
+} from "../types/repository";
 
 const BASE_URL = "https://dummyjson.com/products";
 
@@ -42,10 +46,10 @@ export const createApiProductRepository = (): IProductRepository => {
     getById: async (id: string): Promise<ProductResponse> => {
       const response = await fetch(`${BASE_URL}/${id}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch product by ID');
+        throw new Error("Failed to fetch product by ID");
       }
       const data = await response.json();
-      return{ product: toProduct([data])[0]};
+      return { product: toProduct([data])[0] };
     },
     add: async (product): Promise<Product> => {
       const response = await fetch(`${BASE_URL}/add`, {
@@ -57,14 +61,6 @@ export const createApiProductRepository = (): IProductRepository => {
       });
       if (!response.ok) {
         throw new Error("Failed to add product");
-      }
-      const data = await response.json();
-      return data;
-    },
-    getAllCategories: async (): Promise<{ name: string, slug: string, url: string }[]> => {
-      const response = await fetch(`${BASE_URL}/categories`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch categories");
       }
       const data = await response.json();
       return data;

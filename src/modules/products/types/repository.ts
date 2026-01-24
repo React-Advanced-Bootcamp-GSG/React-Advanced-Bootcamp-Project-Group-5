@@ -24,6 +24,9 @@ export type IProductRepository = {
       "id" | "title" | "description" | "category" | "price" | "image"
     >,
   ) => Promise<Product>;
+};
+
+export type ICategoryRepository = {
   getAllCategories: () => Promise<
     { name: string; slug: string; url: string }[]
   >;
