@@ -1,4 +1,4 @@
-import type { Product } from './entities';
+import type { Product } from "./entities";
 
 export type ProductQueryParams = {
   limit?: number;
@@ -12,10 +12,22 @@ export type ProductsResponse = {
 };
 
 export interface ProductResponse {
-  product:Product
+  product: Product;
 }
 export type IProductRepository = {
   getAll: (params: ProductQueryParams) => Promise<ProductsResponse>;
   delete: (id: string) => Promise<void>;
-  getById :(id:string)=>Promise<ProductResponse>;
-}
+  getById: (id: string) => Promise<ProductResponse>;
+  add: (
+    product: Pick<
+      Product,
+      "id" | "title" | "description" | "category" | "price" | "image"
+    >,
+  ) => Promise<Product>;
+};
+
+export type ICategoryRepository = {
+  getAllCategories: () => Promise<
+    { name: string; slug: string; url: string }[]
+  >;
+};

@@ -1,7 +1,8 @@
-import { createRootRoute, createRoute, Navigate } from '@tanstack/react-router'
-import { Layout } from './components/Layout';
-import Products from './modules/products/views';
-import  { ProductDetails } from './modules/products/components/ProductDetails';
+import { createRootRoute, createRoute, Navigate } from "@tanstack/react-router";
+import { Layout } from "./components/Layout";
+import Products from "./modules/products/views";
+import { ProductDetails } from "./modules/products/components/ProductDetails";
+import AddProduct from "./modules/products/views/AddProduct";
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -23,4 +24,14 @@ export const productRoute = createRoute({
   component: ProductDetails,
 });
 
-export const routeTree = rootRoute.addChildren([productsRoute, productRoute])
+export const addProductRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/product/add",
+  component: AddProduct,
+});
+
+export const routeTree = rootRoute.addChildren([
+  productsRoute,
+  productRoute,
+  addProductRoute,
+]);
