@@ -2,7 +2,7 @@ import { Carousel } from '@mantine/carousel';
 import  ProductCard  from './ProductCard';
 import type { ProductsCarouselProps } from '../types/components';
 
-export const ProductsCarousel = ({ products }: ProductsCarouselProps) => {
+ const ProductsCarousel = ({ products }: ProductsCarouselProps) => {
   return (
     <Carousel
       type="container"
@@ -19,3 +19,6 @@ export const ProductsCarousel = ({ products }: ProductsCarouselProps) => {
     </Carousel>
   );
 };
+
+
+export default ProductsCarousel

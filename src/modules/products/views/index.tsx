@@ -8,12 +8,14 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import React from "react";
-import { useProducts } from "..";
+import React, { useState } from "react";
+import { MdChevronLeft, MdChevronRight, MdFilterList } from "react-icons/md";
 import { groupProductsByCategory } from "../../../utilities/groupProductsByCategory";
 import { FilterSidebar, ProductsContainer } from "../components";
+import { useGetAllProducts } from "../hooks/useGetAllProducts";
 import styles from "./Products.module.css";
-import { MdChevronLeft, MdChevronRight, MdFilterList } from "react-icons/md";
+
+const PRODUCTS_PER_PAGE = 12; // Set the number of products per page as needed
 
 export default function Products() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -98,6 +100,14 @@ export default function Products() {
     (sum, products) => sum + products.length,
     0,
   );
+
+  const prevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const nextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
 
   return (
     <div className={styles.container}>

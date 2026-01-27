@@ -10,9 +10,9 @@ import {
   Text,
 } from "@mantine/core";
 import { MdDeleteOutline, MdShoppingCart } from "react-icons/md";
-import { useProducts } from "..";
 import type { Product } from "../types/entities";
 import styles from "./ProductCard.module.css";
+import { createApiProductRepository } from "../repository/ApiProductRepository";
 
 export default function ProductCard({ product }: { product: Product }) {
   const {
@@ -26,7 +26,7 @@ export default function ProductCard({ product }: { product: Product }) {
     hasDiscounts,
   } = product;
 
-  const { deleteProduct } = useProducts();
+  const { delete: deleteProduct } = createApiProductRepository();
 
   const discountedPrice = hasDiscounts
     ? price * (1 - discountPercentage / 100)
