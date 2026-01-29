@@ -1,14 +1,15 @@
 import {
-    Badge,
-    Button,
-    Checkbox,
-    Divider,
-    Group,
-    Paper,
-    RangeSlider,
-    Stack,
-    Text,
-    Title,
+  Badge,
+  Button,
+  Checkbox,
+  Divider,
+  Grid,
+  Group,
+  Paper,
+  RangeSlider,
+  Stack,
+  Text,
+  Title,
 } from "@mantine/core";
 import React, { useMemo, useState } from "react";
 import { MdClose, MdExpandMore, MdFilterList } from "react-icons/md";
@@ -76,7 +77,7 @@ export default function FilterSidebar({
   const visibleCategories = showMore ? categories : categories.slice(0, 4);
 
   return (
-    <Paper className={styles.sidebar} p="xl" radius="xl">
+    <Paper className={styles.sidebar} p="md" radius="md">
       <Stack gap="lg">
         {/* Header */}
         <div className={styles.header}>
@@ -94,24 +95,29 @@ export default function FilterSidebar({
         </div>
 
         {/* Quick Stats */}
-        <div className={styles.statsContainer}>
-          <div className={styles.stat}>
+        <Grid
+          className={styles.statsContainer}
+          gutter={"sm"}
+          justify="space-between"
+          display={"flex"}
+        >
+          <Grid.Col className={styles.stat} span={{ base: 6 }}>
             <Text size="xs" fw={500} c="dimmed">
               Available
             </Text>
             <Text size="lg" fw={700} c="var(--primary-color)">
               {availableCount}
             </Text>
-          </div>
-          <div className={styles.stat}>
+          </Grid.Col>
+          <Grid.Col className={styles.stat} span={{ base: 6 }}>
             <Text size="xs" fw={500} c="dimmed">
               Discounts
             </Text>
             <Text size="lg" fw={700} c="var(--accent-color)">
               {discountCount}
             </Text>
-          </div>
-        </div>
+          </Grid.Col>
+        </Grid>
 
         <Divider />
 

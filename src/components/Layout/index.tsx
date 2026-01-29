@@ -1,15 +1,21 @@
 import { Outlet } from "@tanstack/react-router";
- 
-export const Layout =() => {
-    return (
-        <div>
-            <header>
-                <h1>E-commerce  Store  </h1>
-            </header> 
-            <Outlet/>
-            <footer>
-                <p>© 2026 GSG-G5</p>
-            </footer>   
-        </div>
-    );
-}
+import { Header } from "../Header";
+import { AppShell, Container, Group, Typography } from "@mantine/core";
+
+export const Layout = () => {
+  return (
+    <AppShell footer={{ height: 40, offset: true }} padding="md">
+      <Header />
+      <AppShell.Main>
+        <Outlet />
+      </AppShell.Main>
+      <AppShell.Footer>
+        <Container bg="#fff" py={10}>
+          <Group justify="center">
+            <Typography fs={"1rem"}>© 2026 GSG-G5</Typography>
+          </Group>
+        </Container>
+      </AppShell.Footer>
+    </AppShell>
+  );
+};

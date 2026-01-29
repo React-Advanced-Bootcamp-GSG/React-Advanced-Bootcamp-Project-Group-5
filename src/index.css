@@ -7,17 +7,16 @@
   --bg-light: #f5f7fa;
   --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   --card-gradient: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
-
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    system-ui, sans-serif;
+  --mantine-color-body: #e2e8f0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", system-ui,
+    sans-serif;
   line-height: 1.6;
   font-weight: 400;
 
   color-scheme: light;
   color: #2d3748;
-  background: var(--bg-gradient);
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -33,13 +32,14 @@
 html,
 body {
   width: 100%;
-  height: 100%;
+  background: #e0e8ff;
+  /* height: 100%; */
 }
 
 body {
-  background: var(--bg-gradient);
-  min-width: 320px;
-  min-height: 100vh;
+  /* background: var(--bg-gradient); */
+  /* min-width: 320px; */
+  /* min-height: 100vh; */
 }
 
 a {
@@ -61,17 +61,21 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-dark) 100%
+  );
   color: white;
   cursor: pointer;
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  /* box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3); */
 }
 
-button:hover:not(:disabled) {
+/* button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-}
+} */
 
 button:focus,
 button:focus-visible {
@@ -89,11 +93,11 @@ button:disabled {
   cursor: not-allowed;
   transform: none;
 }
-
+/* 
 #root {
   width: 100%;
   min-height: 100vh;
-}
+} */
 
 h1,
 h2,
@@ -149,7 +153,11 @@ select:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--primary) 0%,
+    var(--primary-dark) 100%
+  );
   border-radius: 10px;
   transition: background 250ms ease;
 }
@@ -202,7 +210,6 @@ select:focus {
 }
 
 @keyframes pulse {
-
   0%,
   100% {
     opacity: 1;
@@ -229,7 +236,8 @@ select:focus {
 /* Print Styles */
 @media print {
   body {
-    background: white;
+    /* background: white; */
+    background: #e0e8ff;
   }
 
   button {
@@ -237,15 +245,15 @@ select:focus {
   }
 }
 
+:root[data-mantine-color-scheme="light"] {
+  --mantine-color-body: #e2e8f0;
+}
+
 /* Dark Mode (if needed) */
 @media (prefers-color-scheme: dark) {
   :root {
     color: #e2e8f0;
-    background-color: #1a202c;
-  }
-
-  body {
-    background: #1a202c;
+    /* background-color: #1a202c; */
   }
 
   button {

@@ -10,7 +10,7 @@ const ProductsContainer: React.FC<{
 }> = ({ category, products }) => {
   return (
     <Container className={styles.container} py={"xl"} display={"block"}>
-      <Group gap="md" mb="lg" align="center">
+      <Group gap="xs" align="center">
         <div className={styles.iconWrapper}>
           <MdCategory size={24} className={styles.icon} />
         </div>
