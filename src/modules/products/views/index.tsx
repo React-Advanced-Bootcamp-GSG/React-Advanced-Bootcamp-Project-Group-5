@@ -1,6 +1,7 @@
 import {
   Button,
   Center,
+  Container,
   Grid,
   Group,
   Paper,
@@ -110,9 +111,8 @@ export default function Products() {
   };
 
   return (
-    <div className={styles.container}>
-      {/* Header Section */}
-      <Paper className={styles.header} p="xl" radius="lg">
+    <Container>
+      <Paper className={styles.header} p="xl" radius="lg" mb="sm">
         <Stack gap="md">
           <Group justify="space-between" align="flex-start">
             <div>
@@ -138,7 +138,7 @@ export default function Products() {
       </Paper>
 
       {/* Main Content Grid */}
-      <Grid gutter="lg" style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+      <Grid gutter={{ base: "sm" }}>
         {/* Sidebar */}
         <Grid.Col span={{ base: 12, sm: 12, md: 3 }}>
           <FilterSidebar
@@ -184,7 +184,7 @@ export default function Products() {
             className={styles.paginationContainer}
             p="md"
             radius="lg"
-            mb="lg"
+            mb="xs"
           >
             <Group justify="center" gap="md" align="center">
               <Button
@@ -214,7 +214,7 @@ export default function Products() {
 
           {/* Products Display */}
           {Object.keys(finalFilteredProducts).length > 0 && totalResults > 0 ? (
-            <Stack gap="lg" style={{ marginBottom: "2rem" }}>
+            <Stack gap="xs">
               {Object.keys(finalFilteredProducts).map((category) =>
                 finalFilteredProducts[category].length > 0 ? (
                   <ProductsContainer
@@ -246,7 +246,12 @@ export default function Products() {
 
           {/* Bottom Pagination */}
           {totalResults > 0 && (
-            <Paper className={styles.paginationContainer} p="md" radius="lg">
+            <Paper
+              className={styles.paginationContainer}
+              p="md"
+              radius="lg"
+              mt={"xs"}
+            >
               <Group justify="center" gap="md" align="center">
                 <Button
                   leftSection={<MdChevronLeft size={16} />}
@@ -275,6 +280,6 @@ export default function Products() {
           )}
         </Grid.Col>
       </Grid>
-    </div>
+    </Container>
   );
 }

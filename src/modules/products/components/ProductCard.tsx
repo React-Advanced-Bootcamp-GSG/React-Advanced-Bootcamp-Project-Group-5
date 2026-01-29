@@ -10,6 +10,7 @@ import {
   Text,
 } from "@mantine/core";
 import { MdDeleteOutline, MdShoppingCart } from "react-icons/md";
+import { Link } from "@tanstack/react-router";
 import type { Product } from "../types/entities";
 import styles from "./ProductCard.module.css";
 import { createApiProductRepository } from "../repository/ApiProductRepository";
@@ -61,14 +62,22 @@ export default function ProductCard({ product }: { product: Product }) {
             />
             {/* Overlay */}
             <div className={styles.overlay}>
-              <Button
-                size="md"
-                radius="md"
-                leftSection={<MdShoppingCart size={16} />}
-                className={styles.quickViewBtn}
+              <Link
+                to="/product/$productId"
+                params={{ productId: product.id }}
+                style={{ textDecoration: "none" }}
               >
-                Quick View
-              </Button>
+                <Group
+                  justify="space-between"
+                  gap={"xs"}
+                  p={"xs"}
+                  className={styles.quickViewBtn}
+                  bdrs={"sm"}
+                >
+                  <MdShoppingCart size={16} />
+                  <Text size="xs">Quick View</Text>
+                </Group>
+              </Link>
             </div>
           </div>
 
@@ -175,4 +184,4 @@ export default function ProductCard({ product }: { product: Product }) {
       </Card>
     </Grid.Col>
   );
-};
+}
