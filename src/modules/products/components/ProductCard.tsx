@@ -9,11 +9,14 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { MdDeleteOutline, MdShoppingCart } from "react-icons/md";
+import { MdDeleteOutline, MdEdit, MdShoppingCart } from "react-icons/md";
 import { Link } from "@tanstack/react-router";
 import type { Product } from "../types/entities";
 import styles from "./ProductCard.module.css";
 import { createApiProductRepository } from "../repository/ApiProductRepository";
+import { useState } from "react";
+import { useUpdateProduct } from "../hooks/useUpdateProduct";
+import { UpdateProductModal } from "./UpdateProductModal";
 
 export default function ProductCard({ product }: { product: Product }) {
   const {
@@ -28,6 +31,9 @@ export default function ProductCard({ product }: { product: Product }) {
   } = product;
 
   const { delete: deleteProduct } = createApiProductRepository();
+
+  const [opened, setOpened] = useState(false);
+  const { updateProduct, isLoading } = useUpdateProduct();
 
   const discountedPrice = hasDiscounts
     ? price * (1 - discountPercentage / 100)
@@ -179,6 +185,24 @@ export default function ProductCard({ product }: { product: Product }) {
             >
               Delete
             </Button>
+            <Button
+              fullWidth
+              className={styles.updateBtn}
+              radius="md"
+              size="sm"
+              color="blue"
+              leftSection={<MdEdit size={14} />}
+              onClick={() => setOpened(true)}
+            >
+              Update
+            </Button>
+            <UpdateProductModal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        product={product}
+        loading={isLoading}
+        onSubmit={async(values) => updateProduct({id: product.id, updatedProduct: values})}
+      />
           </Group>
         </Stack>
       </Card>

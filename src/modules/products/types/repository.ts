@@ -24,6 +24,7 @@ export type IProductRepository = {
       "id" | "title" | "description" | "category" | "price" | "image"
     >,
   ) => Promise<Product>;
+  update: (id:string, data: Partial<Pick<Product, "title" | "description" | "price">>) => Promise<ProductResponse> 
 };
 
 export type ICategoryRepository = {

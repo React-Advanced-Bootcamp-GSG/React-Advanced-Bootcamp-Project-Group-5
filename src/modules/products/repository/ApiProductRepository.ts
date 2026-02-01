@@ -65,5 +65,26 @@ export const createApiProductRepository = (): IProductRepository => {
       const data = await response.json();
       return data;
     },
-  };
-};
+    update: async (
+      id: string,
+      data: Partial<Pick<Product, "title" | "description" | "price">>,
+    ): Promise<ProductResponse> => {
+      const response = await fetch(`${BASE_URL}/${id}`, {
+        method: "PATCH", // أو PUT
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update product");
+      }
+
+      const updated = await response.json();
+      return {
+        product: toProduct([updated])[0],
+      }
+  },
+}
+}
